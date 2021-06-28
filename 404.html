@@ -107,7 +107,7 @@
     <p>
         <span>Copyright ©  <a href="https://bing-ru624.github.io/universitylife/">斑泥的荒誕人生</a></span>
         <!-- <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> -->
-        <span id="busuanzi_container_site_pv">| 總訪問量 <span id="busuanzi_value_site_pv"></span> 次 </span>
+        <!-- <span id="busuanzi_container_site_pv">| 總訪問量 <span id="busuanzi_value_site_pv"></span> 次 </span> -->
         <span id="busuanzi_container_site_uv">| 總訪客數 <span id="busuanzi_value_site_uv"></span> 人 </span>
         <!-- <span id="busuanzi_container_site_pv">
             <span id="busuanzi_value_site_pv"></span>PV
@@ -123,7 +123,7 @@
 $(document).ready(function() {
 
     var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-    var countOffset = 0;  // 初始化首次数据
+    var countOffset = 20000;  // 初始化首次数据
 
     function fixCount() {            
        if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
