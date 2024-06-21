@@ -140,16 +140,10 @@
     border: 2px solid black;
     background-color: white;
   }
-  .selected {
-    fill: red;
-  }
   .boundary {
     fill: #DEB887;
     stroke: black;
     stroke-width: 1px; 
-  }
-  .hidden {
-    display: none;
   }
   div.tooltip {
     color: #222; 
@@ -171,16 +165,14 @@
       rotated = 90,
       height = 502;
 
-  // Track where the mouse was clicked
   var initX;
-  // Track scale; only rotate when s === 1
   var s = 1;
   var mouseClicked = false;
 
   var projection = d3.geo.mercator()
       .scale(153)
       .translate([width / 2, height / 1.5])
-      .rotate([rotated, 0, 0]); // Center on the USA
+      .rotate([rotated, 0, 0]);
 
   var zoom = d3.behavior.zoom()
        .scaleExtent([1, 20])
@@ -189,7 +181,6 @@
   var svg = d3.select("#map").append("svg")
       .attr("width", width)
       .attr("height", height)
-      // Track where the user clicked down
       .on("mousedown", function() {
          d3.event.preventDefault(); 
          if (s !== 1) return;
@@ -209,7 +200,6 @@
      .attr('d', path);
   }
 
-  // Tooltip setup
   var offsetL = document.getElementById('map').offsetLeft + 10;
   var offsetT = document.getElementById('map').offsetTop + 10;
 
@@ -220,14 +210,17 @@
        .append("div")
        .attr("class", "tooltip hidden");
 
-  // Group for panning
   var g = svg.append("g");
 
-  // Load JSON data and draw it
   d3.json("https://d3js.org/world-110m.v1.json", function(error, world) {
     if (error) return console.error(error);
 
-    // Countries
+    var visitedCountries = {
+      "United Kingdom": "#ffcc00", // 英国
+      "France": "#ffcc00"          // 法国
+      // 添加更多国家
+    };
+
     g.append("g")
         .attr("class", "boundary")
       .selectAll("boundary")
@@ -235,36 +228,14 @@
         .enter().append("path")
         .attr("name", function(d) { return d.properties.name; })
         .attr("id", function(d) { return d.id; })
-        .on('click', selected)
         .on("mousemove", showTooltip)
         .on("mouseout", function(d, i) {
             tooltip.classed("hidden", true);
          })
         .attr("d", path)
         .attr("fill", function(d) {
-          var visitedCountries = {
-            "United Kingdom": "#ffcc00", // 英國
-            "France": "#ffcc00"          // 法國
-            // 添加更多國家
-          };
           return visitedCountries[d.properties.name] || "#DEB887";
         });
-
-    // States (if needed)
-    g.append("g")
-        .attr("class", "boundary state hidden")
-      .selectAll("boundary")
-        .data(topojson.feature(world, world.objects.states).features)
-        .enter().append("path")
-        .attr("name", function(d) { return d.properties.name; })
-        .attr("id", function(d) { return d.id; })
-        .on('click', selected)
-        .on("mousemove", showTooltip)
-        .on("mouseout", function(d, i) {
-            tooltip.classed("hidden", true);
-         })
-        .attr("d", path);
-
   });
 
   function showTooltip(d) {
@@ -273,11 +244,6 @@
     tooltip.classed("hidden", false)
       .attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
       .html(label);
-  }
-
-  function selected() {
-    d3.select('.selected').classed('selected', false);
-    d3.select(this).classed('selected', true);
   }
 
   function zoomed() {
@@ -303,7 +269,6 @@
 
     g.attr("transform", "translate(" + t + ")scale(" + s + ")");
 
-    // Adjust the stroke width based on zoom level
     d3.selectAll(".boundary")
       .style("stroke-width", 1 / s);
   }
