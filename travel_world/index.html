@@ -167,7 +167,6 @@
     var visitedCountries = {
       "United Kingdom": "#ffcc00", // 英國
       "France": "#ffcc00"          // 法國
-      "China": "#e63d09"
       // 添加更多國家
     };
 
@@ -177,6 +176,7 @@
        .enter().append("path")
        .attr("d", path)
        .attr("fill", function(d) {
+          console.log(d.properties.name); // 打印每個國家的名稱到控制台
           return visitedCountries[d.properties.name] || "#ccc";
        })
        .attr("stroke", "#333");
