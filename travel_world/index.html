@@ -130,7 +130,56 @@
         <!-- Main Content -->
         
 <div class="post-content no-indent">
-    <h2 id="我去過的地方"><a href="#我去過的地方" class="headerlink" title="我去過的地方"></a>我去過的地方</h2><div id="map" style="width: 100%; height: 600px;"></div>
+    <h2 id="我去過的地方"><a href="#我去過的地方" class="headerlink" title="我去過的地方"></a>我去過的地方</h2><!-- VisitedPlaces.com code -->
+<script>
+// VisitedPlaces.com code
+var visitedplaces_config = {
+  "map": "world",
+  "projection": "geoNaturalEarth1",
+  "theme": "dark-green",
+  "water": 1,
+  "graticule": 0,
+  "names": 1,
+  "duration": 2000,
+  "slider": 0,
+  "autoplay": 0,
+  "autozoom": "none",
+  "data": [
+    {
+      "places": [
+        "AT",
+        "ES",
+        "PT",
+        "FR",
+        "BE",
+        "NL",
+        "DE",
+        "IT",
+        "CH",
+        "GB",
+        "IS",
+        "CZ",
+        "HU",
+        "CN",
+        "JP",
+        "MY",
+        "ID",
+        "TH",
+        "AU",
+        "NZ"
+      ]
+    }
+  ],
+  "home": "TW"
+};
+</script>
+<div id="chartdiv" style="width: 100%; height: 600px;">
+<script src="https://www.visitedplaces.com/js/common.js"></script>
+<script src="https://www.visitedplaces.com/js/viewer.js"></script>
+<!-- end: VisitedPlaces.com code -->
+
+
+<div id="map" style="width: 100%; height: 600px;"></div>
 
 <!-- 引入Leaflet CSS和JS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
