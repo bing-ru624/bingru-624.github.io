@@ -85,7 +85,7 @@
 	    <li  class=active >
                 <a href="/universitylife/travel_world/">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>荒誕記事</span>
+                    <span>旅遊</span>
                 </a>
             </li>
             <li >
@@ -150,15 +150,34 @@
               .attr("width", width)
               .attr("height", height);
 
+  // 加入縮放和拖拽行為
+  var zoom = d3.zoom()
+               .scaleExtent([1, 8])
+               .on("zoom", zoomed);
+
+  svg.call(zoom);
+
   // 加載地圖數據並繪製地圖
   d3.json("https://d3js.org/world-110m.v1.json").then(function(world) {
     var countries = topojson.feature(world, world.objects.countries).features;
 
-    svg.selectAll("path")
+    var g = svg.append("g");
+
+    // 定義已去過的國家
+    var visitedCountries = [
+      "United Kingdom", // 英國
+      "France"          // 法國
+      // 添加更多國家
+    ];
+
+    // 將每個國家標記上顏色
+    g.selectAll("path")
        .data(countries)
        .enter().append("path")
        .attr("d", path)
-       .attr("fill", "#ccc")
+       .attr("fill", function(d) {
+          return visitedCountries.includes(d.properties.name) ? "#ffcc00" : "#ccc";
+       })
        .attr("stroke", "#333");
 
     // 添加標註點
@@ -168,7 +187,7 @@
       // 添加更多城市
     ];
 
-    svg.selectAll("circle")
+    g.selectAll("circle")
        .data(cities)
        .enter().append("circle")
        .attr("cx", function(d) { return projection(d.coordinates)[0]; })
@@ -176,7 +195,7 @@
        .attr("r", 5)
        .attr("fill", "red");
 
-    svg.selectAll("text")
+    g.selectAll("text")
        .data(cities)
        .enter().append("text")
        .attr("x", function(d) { return projection(d.coordinates)[0] + 5; })
@@ -185,8 +204,12 @@
        .attr("font-size", "12px")
        .attr("fill", "black");
   });
-</script>
 
+  function zoomed(event) {
+    svg.selectAll('g')
+       .attr("transform", event.transform);
+  }
+</script>
     
     <div id="comment-container">
     </div>
