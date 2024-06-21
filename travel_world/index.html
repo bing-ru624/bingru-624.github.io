@@ -164,11 +164,11 @@
     var g = svg.append("g");
 
     // 定義已去過的國家
-    var visitedCountries = [
-      "United Kingdom", // 英國
-      "France"          // 法國
+    var visitedCountries = {
+      "United Kingdom": "#ffcc00", // 英國
+      "France": "#ffcc00"          // 法國
       // 添加更多國家
-    ];
+    };
 
     // 將每個國家標記上顏色
     g.selectAll("path")
@@ -176,7 +176,7 @@
        .enter().append("path")
        .attr("d", path)
        .attr("fill", function(d) {
-          return visitedCountries.includes(d.properties.name) ? "#ffcc00" : "#ccc";
+          return visitedCountries[d.properties.name] || "#ccc";
        })
        .attr("stroke", "#333");
 
